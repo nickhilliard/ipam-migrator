@@ -34,6 +34,7 @@ from ipam_migrator.db.ip_address import IPAddress
 from ipam_migrator.db.object import Object
 from ipam_migrator.db.prefix import Prefix
 from ipam_migrator.db.vlan import VLAN
+from ipam_migrator.db.vrf import VRF
 
 from ipam_migrator.exception import APIOptionsError
 from ipam_migrator.exception import APIReadError
@@ -449,8 +450,41 @@ class PhpIPAM(BaseBackend):
         '''
         Read a dictionary of VRF objects from the API backend,
         '''
+        vrfs = {}
 
-        raise NotImplementedError()
+        self.logger.info("Searching for VRFs...")
+
+        # GET command for the VRF controller is not supported in phpIPAM
+        # versions older than 1.3. It's much faster, though, so use it if
+        # it's available.
+        if "GET" in self.api_controller_methods("vrfs")[("vrfs",)]:
+            for data in self.api_read("vrfs"):
+                i = data["id"]
+                vrfs[i] = self.vrf_get(data)
+                self.logger.debug("found {}".format(vrfs[i]))
+
+        else:
+            self.logger.info(
+                "NOTE: 'vrfs' controller root 'GET' method not supported by API endpoint, "
+                "using iterative path (consider upgrading to phpIPAM 1.3+)",
+            )
+
+            for i in range(1, 4095):
+                try:
+                    vrfs[i] = self.vrf_get(self.api_read("vrfs", i))
+                    self.logger.debug("found {}".format(vrfs[i]))
+                except APIReadError as err:
+                    if err.api_message == "Invalid VRF id":
+                        continue
+                    else:
+                        raise
+
+        self.logger.info("Found {} VRFS.".format(len(vrfs)))
+
+        return vrfs
+
+
+#        raise NotImplementedError()
 
 
     #
@@ -622,4 +656,8 @@ class PhpIPAM(BaseBackend):
         Get a VRF object from the given data dictionary.
         '''
 
-        raise NotImplementedError()
+        return VRF(
+            data["id"], # VRF_id
+            data["name"], # VRF Name
+            data["rd"], # Router Distinguisher
+        )
