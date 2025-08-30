@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ipam-migrator"
+version = "1.0.0"
+dependencies = [
+  "requests",
+]
+requires-python = ">=3.4"
+authors = [
+  {name = "Callum Dickinson", email = "callum.dickinson@catalyst.net.nz"},
+]
+maintainers = [
+  {name = "Nick Hilliard", email = "nick@foobar.org"},
+]
+description = "IPAM database migration script"
+readme = "README.md"
+license = "GPL-3.0-or-later"
+license-files = ["LICEN[CS]E"]
+keywords = [ "ipam", "phpipam", "netbox" ]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+
+    "Intended Audience :: System Administrators",
+    "Topic :: System :: Networking",
+
+    "Operating System :: POSIX :: Linux",
+
+    "Programming Language :: Python :: 3",
+]
+
+[project.urls]
+Homepage = "https://github.com/nickhilliard/ipam-migrator"
+Repository = "https://github.com/nickhilliard/ipam-migrator.git"
+Issues = "https://github.com/nickhilliard/ipam-migrator/issues"
+Changelog = "https://github.com/nickhilliard/ipam-migrator/blob/master/CHANGELOG.md"
+
+[project.scripts]
+ipam-migrator = "ipam_migrator.ipam_migrator:main"
