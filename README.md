@@ -43,7 +43,7 @@ phpIPAM Configuration
 4. Add a phpIPAM API Key: Administration | API | Create API key
   * The App ID is used as a reference in the input endpoint URL, so set it
     to something short and relevant, e.g. `ipamexport`
-  * Set App security to be `SSL with App code token`
+  * Set App security to be `SSL with User token`
 5. Ensure that http basic auth is disabled entirely for phpIPAM. If basic auth is configured in Apache, then ipam-migrator will not work.
 6. Create a new username for API which has read access to all objects
 
