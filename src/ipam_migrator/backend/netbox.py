@@ -24,6 +24,7 @@ phpIPAM database backend.
 
 
 import requests
+import json
 
 from ipam_migrator.backend.base import BaseBackend
 
@@ -229,8 +230,9 @@ class NetBox(BaseBackend):
         response = function(
             uri,
             auth=HTTPTokenAuth(self.token),
-            data=data,
+            data=json.dumps(data),
             verify=self.api_ssl_verify,
+            headers={"Content-Type": "application/json"}
         )
 
         if not response.text:
@@ -467,6 +469,7 @@ class NetBox(BaseBackend):
                     "name": vlan.name,
                     "description": vlan.description,
                     "vid": vlan.vid,
+                    "status": "active",
                 },
                 self.vlan_get,
             )
@@ -509,6 +512,7 @@ class NetBox(BaseBackend):
                     "is_pool": prefix.is_pool,
                     "vlan": vlans_old_to_new[prefix.vlan_id] if prefix.vlan_id else None,
                     "vrf": vrfs_old_to_new[prefix.vrf_id] if prefix.vrf_id else None,
+                    "status": "active",
                 },
                 self.prefix_get,
             )
@@ -548,6 +552,7 @@ class NetBox(BaseBackend):
                     "address": str(ip_address.address),
                     "custom_fields": ip_address.custom_fields,
                     "vrf": vrfs_old_to_new[ip_address.vrf_id] if ip_address.vrf_id else None,
+                    "status": "active",
                 },
                 self.ip_address_get,
             )
