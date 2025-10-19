@@ -416,6 +416,8 @@ class PhpIPAM(BaseBackend):
 
         self.logger.info("Searching for VLANs...")
 
+        # TODO: check if VRF module is enabled in configuration before attempting to list them
+
         # GET command for the VLANs controller is not supported in phpIPAM
         # versions older than 1.3. It's much faster, though, so use it if
         # it's available.
@@ -464,6 +466,7 @@ class PhpIPAM(BaseBackend):
                 self.logger.debug("found {}".format(vrfs[i]))
 
         else:
+            # TODO: raise exception if GET not available, as it is not possible to iterate to 2^32 RDs
             self.logger.info(
                 "NOTE: 'vrfs' controller root 'GET' method not supported by API endpoint, "
                 "using iterative path (consider upgrading to phpIPAM 1.3+)",
@@ -658,6 +661,7 @@ class PhpIPAM(BaseBackend):
 
         return VRF(
             data["id"], # VRF_id
-            data["name"], # VRF Name
-            data["rd"], # Router Distinguisher
+            data["rd"], # Route Distinguisher
+            name=data["name"], # VRF Name
+            description=data["description"], # Description
         )

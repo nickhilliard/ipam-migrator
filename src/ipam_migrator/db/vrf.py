@@ -35,7 +35,7 @@ class VRF(Object):
     # pylint: disable=too-many-arguments
     def __init__(self,
                  vrf_id,
-                 route_distinguisher,
+                 rd,
                  enforce_unique=False,
                  name=None, description=None):
         '''
@@ -44,7 +44,7 @@ class VRF(Object):
 
         super().__init__(vrf_id, name, description)
 
-        self.route_distinguisher = route_distinguisher
+        self.rd = int(rd)
         self.enforce_unique = bool(enforce_unique)
 
 
@@ -53,11 +53,12 @@ class VRF(Object):
         String representation of a VRF.
         '''
 
+        ret = "VRF {} with rd '{}'".format(self.id_get(), self.rd)
         if self.name:
-            return "VRF {} with name '{}'".format(self.id_get(), self.name)
+            ret += " name '{}'".format(self.name)
         if self.description:
-            return "VRF {} with description '{}'".format(self.id_get(), self.description)
-        return "VRF {}".format(self.id_get())
+            ret += " description '{}'".format(self.description)
+        return ret
 
 
     def as_dict(self):
@@ -70,6 +71,6 @@ class VRF(Object):
             "name": self.name,
             "description": self.description,
 
-            "route_distinguisher": self.route_distinguisher,
+            "rd": self.rd,
             "enforce_unique": self.enforce_unique,
         }
