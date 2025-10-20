@@ -44,7 +44,7 @@ class VRF(Object):
 
         super().__init__(vrf_id, name, description)
 
-        self.rd = int(rd)
+        self.rd = str(rd)
         self.enforce_unique = bool(enforce_unique)
 
 
