@@ -427,7 +427,11 @@ class NetBox(BaseBackend):
 
         current_obj = None
         for obj in current_objs:
-            if str(obj[obj_search_index]) == str(obj_search_params[list(obj_search_params.keys())[0]]):
+            # TODO: check IP addresses and prefixes for vrf match
+            response_token = str(obj[obj_search_index])
+            if obj_type == 'ip-addresses':
+                response_token = response_token.split("/")[0]
+            if response_token == str(obj_search_params[list(obj_search_params.keys())[0]]):
                 current_obj = obj
                 break
 
