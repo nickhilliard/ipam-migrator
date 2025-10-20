@@ -41,6 +41,7 @@ class IPAddress(Object):
                  description=None,
                  custom_fields=None,
                  hostname=None,
+                 note=None,
                  vrf_id=None):
         '''
         VLAN object constructor.
@@ -54,6 +55,7 @@ class IPAddress(Object):
         self.family = 6 if isinstance(self.address, ipaddress.IPv6Address) else 4
         self.custom_fields = custom_fields.copy() if custom_fields is not None else dict()
         self.hostname = hostname if hostname is not None else None
+        self.note = note if note is not None else None
 
         # Grouping fields, in ascending order of scale.
         self.vrf_id = int(vrf_id) if vrf_id is not None else None
@@ -81,7 +83,8 @@ class IPAddress(Object):
             "address": str(self.address),
             "family": self.family,
             "custom_fields": self.custom_fields.copy(),
-            "hostname": self.hostname.copy(),
+            "hostname": self.hostname,
+            "note": self.note,
 
             "vrf_id": self.vrf_id,
         }

@@ -636,6 +636,7 @@ class PhpIPAM(BaseBackend):
             data["ip"], # address
             description=data["description"],
             hostname=data["hostname"],
+            note=data["note"],
             # Unused:
             # subnetId - Id of subnet address belongs to
             # is_gateway - Defines if address is presented as gateway
@@ -646,7 +647,6 @@ class PhpIPAM(BaseBackend):
             # PTR - Id of PowerDNS PTR record
             # deviceId - Id of device address belongs to
             # port - Port
-            # note - Note
             # lastSeen - Date and time address was last seen with ping.
             # excludePing - Exclude this address from status update scans (ping)
             # editDate - Date and time of last update

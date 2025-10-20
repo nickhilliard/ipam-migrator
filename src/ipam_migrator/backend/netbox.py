@@ -592,8 +592,9 @@ class NetBox(BaseBackend):
                 {
                     "description": ip_address.description if ip_address.description else '',
                     "address": str(ip_address.address),
-                    "dns_name": str(ip_address.hostname) if ip_address.hostname else '',
                     "custom_fields": ip_address.custom_fields,
+                    "dns_name": ip_address.hostname if ip_address.hostname else '',
+                    "comments": ip_address.note if ip_address.note else '',
                     "vrf": vrfs_old_to_new[ip_address.vrf_id] if ip_address.vrf_id else None,
                     "status": "active",
                 },
