@@ -503,7 +503,7 @@ class NetBox(BaseBackend):
                 {"vid": vlan.vid},
                 {
                     "name": vlan.name,
-                    "description": vlan.description,
+                    "description": vlan.description if vlan.description else '',
                     "vid": vlan.vid,
                     "status": "active",
                 },
@@ -544,7 +544,7 @@ class NetBox(BaseBackend):
                 "prefixes",
                 {"q": str(prefix.prefix)},
                 {
-                    "description": prefix.description,
+                    "description": prefix.description if prefix.description else '',
                     "prefix": str(prefix.prefix),
                     "is_pool": prefix.is_pool,
                     "vlan": vlans_old_to_new[prefix.vlan_id] if prefix.vlan_id else None,
@@ -586,7 +586,7 @@ class NetBox(BaseBackend):
                 "ip-addresses",
                 {"q": str(ip_address.address)},
                 {
-                    "description": ip_address.description,
+                    "description": ip_address.description if ip_address.description else '',
                     "address": str(ip_address.address),
                     "custom_fields": ip_address.custom_fields,
                     "vrf": vrfs_old_to_new[ip_address.vrf_id] if ip_address.vrf_id else None,
