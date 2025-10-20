@@ -74,3 +74,10 @@ class VRF(Object):
             "rd": self.rd,
             "enforce_unique": self.enforce_unique,
         }
+
+    def search_key(self):
+        '''
+        Define which field should return a search exact match
+        '''
+
+        return 'rd'

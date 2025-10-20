@@ -69,3 +69,10 @@ class VLAN(Object):
 
             "vid": self.vid,
         }
+
+    def search_key(self):
+        '''
+        Define which field should return a search exact match
+        '''
+
+        return 'vid'

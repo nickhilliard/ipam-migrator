@@ -413,7 +413,8 @@ class NetBox(BaseBackend):
                   obj_type,
                   obj_search_params,
                   obj_data,
-                  obj_get_func):
+                  obj_get_func,
+                  obj_search_index):
         '''
         Write an Object to the API backend.
         '''
@@ -422,7 +423,13 @@ class NetBox(BaseBackend):
         # If there is one, we will overwrite its data and reuse its ID
         # with a PUT request, otherwise upload a new object using a POST request.
         current_objs = self.api_search("ipam", obj_type, **obj_search_params)
-        current_obj = current_objs[0] if current_objs else None
+        self.logger.debug("search for '{}' returned: '{}'".format(obj_search_params,current_objs))
+
+        current_obj = None
+        for obj in current_objs:
+            if str(obj[obj_search_index]) == str(obj_search_params[list(obj_search_params.keys())[0]]):
+                current_obj = obj
+                break
 
         if current_obj:
             new_obj_data = self.api_put(
@@ -465,6 +472,7 @@ class NetBox(BaseBackend):
                     "status": "active",
                 },
                 self.vrf_get,
+                vrf.search_key(),
             )
 
             vrfs_new[new_vrf.id_get()] = new_vrf
@@ -500,6 +508,7 @@ class NetBox(BaseBackend):
                     "status": "active",
                 },
                 self.vlan_get,
+                vlan.search_key(),
             )
 
             vlans_new[new_vlan.id_get()] = new_vlan
@@ -543,6 +552,7 @@ class NetBox(BaseBackend):
                     "status": "active",
                 },
                 self.prefix_get,
+                prefix.search_key(),
             )
 
             prefixes_new[new_prefix.id_get()] = new_prefix
@@ -583,6 +593,7 @@ class NetBox(BaseBackend):
                     "status": "active",
                 },
                 self.ip_address_get,
+                ip_address.search_key(),
             )
 
             ip_addresses_new[new_ip_address.id_get()] = new_ip_address
