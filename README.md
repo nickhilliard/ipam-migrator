@@ -99,5 +99,11 @@ For input from phpIPAM, assuming that phpIPAM is installed at https://www.exampl
 A sample command line to test this configuration with username `phpipamapi` might look like this:
 
 ```
-ipam-migrator --level DEBUG https://www.example.com/phpipam/api/ipamexport,phpipam,login,phpipamapi,mysecur3passw0rd
+ipam-migrator --log-level DEBUG https://www.example.com/phpipam/api/ipamexport,phpipam,login,phpipamapi,mysecur3passw0rd
+```
+
+Or to execute an import:
+
+```
+ipam-migrator --log-level DEBUG https://www.example.com/phpipam/api/ipamexport,phpipam,login,phpipamapi,mysecur3passw0rd https://www.example.com/netbox/api/,netbox,key,mynetboxapikey
 ```
