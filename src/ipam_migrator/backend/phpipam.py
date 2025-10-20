@@ -635,10 +635,10 @@ class PhpIPAM(BaseBackend):
             data["id"], # address_id
             data["ip"], # address
             description=data["description"],
+            hostname=data["hostname"],
             # Unused:
             # subnetId - Id of subnet address belongs to
             # is_gateway - Defines if address is presented as gateway
-            # hostname - Address hostname
             # mac - Mac address
             # owner - Address owner
             # tag - IP tag (online, offline, ...)
