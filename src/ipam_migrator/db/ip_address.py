@@ -82,3 +82,10 @@ class IPAddress(Object):
 
             "vrf_id": self.vrf_id,
         }
+
+    def search_key(self):
+        '''
+        Define which field should return a search exact match
+        '''
+
+        return 'address'
